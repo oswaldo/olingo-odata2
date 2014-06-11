@@ -353,7 +353,9 @@ public class JPAEdmProperty extends JPAEdmBaseViewImpl implements
         }
       } else {
         if (joinColumn.insertable() && joinColumn.updatable()) {
-          EntityType<?> referencedEntityType = metaModel.entity(jpaAttribute.getJavaType());
+          EntityType<?> referencedEntityType =
+              metaModel.entity(jpaAttribute instanceof PluralAttribute ? ((PluralAttribute) jpaAttribute)
+                  .getElementType().getJavaType() : jpaAttribute.getJavaType());
           for (Attribute<?, ?> referencedAttribute : referencedEntityType.getAttributes()) {
             AnnotatedElement annotatedElement2 = (AnnotatedElement) referencedAttribute.getJavaMember();
             if (annotatedElement2 != null) {

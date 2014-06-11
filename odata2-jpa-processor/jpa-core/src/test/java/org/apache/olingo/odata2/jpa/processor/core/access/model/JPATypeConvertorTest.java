@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import javax.persistence.EnumType;
+
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.jpa.processor.api.exception.ODataJPAModelException;
 import org.apache.olingo.odata2.jpa.processor.core.common.ODataJPATestConstants;
@@ -42,6 +44,7 @@ public class JPATypeConvertorTest {
   private EdmSimpleTypeKind edmSimpleKindTypeByte;
   private EdmSimpleTypeKind edmSimpleKindTypeBoolean;
   private EdmSimpleTypeKind edmSimpleKindTypeUUID;
+  private EdmSimpleTypeKind edmSimpleKindTypeEnumAsString;
 
   @Test
   public void testConvertToEdmSimpleType() {
@@ -56,6 +59,7 @@ public class JPATypeConvertorTest {
     Byte byteObj = new Byte((byte) 0);
     Boolean booleanObj = Boolean.TRUE;
     UUID uUID = new UUID(0, 0);
+    EnumType someEnum = EnumType.ORDINAL;
 
     try {
       edmSimpleKindTypeString = JPATypeConvertor.convertToEdmSimpleType(str.getClass(), null);
@@ -68,6 +72,7 @@ public class JPATypeConvertorTest {
       edmSimpleKindTypeBigDecimal = JPATypeConvertor.convertToEdmSimpleType(bigDecimalObj.getClass(), null);
       edmSimpleKindTypeByte = JPATypeConvertor.convertToEdmSimpleType(byteObj.getClass(), null);
       edmSimpleKindTypeBoolean = JPATypeConvertor.convertToEdmSimpleType(booleanObj.getClass(), null);
+      edmSimpleKindTypeEnumAsString = JPATypeConvertor.convertToEdmSimpleType(someEnum.getClass(), null);
       /*
        * edmSimpleKindTypeDate = JPATypeConvertor
        * .convertToEdmSimpleType(dateObj.getClass(),null);
@@ -89,6 +94,7 @@ public class JPATypeConvertorTest {
     assertEquals(EdmSimpleTypeKind.Boolean, edmSimpleKindTypeBoolean);
     // assertEquals(EdmSimpleTypeKind.DateTime, edmSimpleKindTypeDate);
     assertEquals(EdmSimpleTypeKind.Guid, edmSimpleKindTypeUUID);
+    assertEquals(EdmSimpleTypeKind.String, edmSimpleKindTypeEnumAsString);
   }
 
 }

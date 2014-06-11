@@ -72,6 +72,8 @@ public class EdmDateTime extends AbstractSimpleType {
           dateTimeValue.clear();
           dateTimeValue.setTimeInMillis(millis);
           return returnType.cast(dateTimeValue);
+        } else if (CustomTypeConvertorRegistry.hasConvertorFor(returnType)) {
+          return CustomTypeConvertorRegistry.convertMillisToType(returnType, millis);
         } else {
           throw new EdmSimpleTypeException(EdmSimpleTypeException.VALUE_TYPE_NOT_SUPPORTED.addContent(returnType));
         }
@@ -97,6 +99,8 @@ public class EdmDateTime extends AbstractSimpleType {
       return returnType.cast(dateTimeValue.getTimeInMillis());
     } else if (returnType.isAssignableFrom(Date.class)) {
       return returnType.cast(dateTimeValue.getTime());
+    } else if (CustomTypeConvertorRegistry.hasConvertorFor(returnType)) {
+      return CustomTypeConvertorRegistry.convertCalendarToType(returnType, dateTimeValue);
     } else {
       throw new EdmSimpleTypeException(EdmSimpleTypeException.VALUE_TYPE_NOT_SUPPORTED.addContent(returnType));
     }
@@ -159,6 +163,8 @@ public class EdmDateTime extends AbstractSimpleType {
       timeInMillis = ((Calendar) value).getTimeInMillis();
     } else if (value instanceof Long) {
       timeInMillis = ((Long) value).longValue();
+    } else if (CustomTypeConvertorRegistry.hasConvertorFor(value.getClass())) {
+      timeInMillis = CustomTypeConvertorRegistry.convertValueToMillis(value);
     } else {
       throw new EdmSimpleTypeException(EdmSimpleTypeException.VALUE_TYPE_NOT_SUPPORTED.addContent(value.getClass()));
     }
