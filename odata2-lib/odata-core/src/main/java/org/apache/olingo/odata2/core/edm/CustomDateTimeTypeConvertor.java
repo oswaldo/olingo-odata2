@@ -14,7 +14,7 @@ public abstract class CustomDateTimeTypeConvertor<T> extends CustomTypeConvertor
 
   public abstract Long convertValueToMillis(T value);
 
-  public T convertCalendarToType(Calendar calendar) {
+  public T convertToType(Calendar calendar) {
     return convertMillisToType(calendar.getTimeInMillis());
   }
 

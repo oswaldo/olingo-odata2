@@ -68,8 +68,8 @@ public abstract class CustomTypeConvertorRegistry {
    * @param calendar
    * @return
    */
-  public static <T> T convertCalendarToType(Class<T> type, Calendar calendar) {
-    return ((CustomDateTimeTypeConvertor<T>) customConvertors.get(type.getName())).convertCalendarToType(calendar);
+  public static <T> T convertToType(Class<T> type, Calendar calendar) {
+    return ((CustomDateTimeTypeConvertor<T>) customConvertors.get(type.getName())).convertToType(calendar);
   }
 
   /**
@@ -78,6 +78,15 @@ public abstract class CustomTypeConvertorRegistry {
    */
   public static Long convertValueToMillis(Object value) {
     return ((CustomDateTimeTypeConvertor) customConvertors.get(value.getClass().getName())).convertValueToMillis(value);
+  }
+
+  /**
+   * @param type
+   * @param calendar
+   * @return
+   */
+  public static <T> T convertToType(Class<T> type, Byte valueByte) {
+    return ((CustomByteTypeConvertor<T>) customConvertors.get(type.getName())).convertToType(valueByte);
   }
 
   // Utility methods for simpler registration of simple types

@@ -59,12 +59,22 @@ public class EdmSByte extends AbstractSimpleType {
 
     if (returnType.isAssignableFrom(Byte.class)) {
       return returnType.cast(valueByte);
+    } else if (returnType.isAssignableFrom(byte.class)) {
+      return (T) valueByte;
     } else if (returnType.isAssignableFrom(Short.class)) {
       return returnType.cast(valueByte.shortValue());
+    } else if (returnType.isAssignableFrom(short.class)) {
+      return (T) Short.valueOf(valueByte.shortValue());
     } else if (returnType.isAssignableFrom(Integer.class)) {
       return returnType.cast(valueByte.intValue());
+    } else if (returnType.isAssignableFrom(int.class)) {
+      return (T) Integer.valueOf(valueByte.intValue());
     } else if (returnType.isAssignableFrom(Long.class)) {
       return returnType.cast(valueByte.longValue());
+    } else if (returnType.isAssignableFrom(long.class)) {
+      return (T) Long.valueOf(valueByte.longValue());
+    } else if (CustomTypeConvertorRegistry.hasConvertorFor(returnType)) {
+      return CustomTypeConvertorRegistry.convertToType(returnType, valueByte);
     } else {
       throw new EdmSimpleTypeException(EdmSimpleTypeException.VALUE_TYPE_NOT_SUPPORTED.addContent(returnType));
     }

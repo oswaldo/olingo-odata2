@@ -100,7 +100,7 @@ public class EdmDateTime extends AbstractSimpleType {
     } else if (returnType.isAssignableFrom(Date.class)) {
       return returnType.cast(dateTimeValue.getTime());
     } else if (CustomTypeConvertorRegistry.hasConvertorFor(returnType)) {
-      return CustomTypeConvertorRegistry.convertCalendarToType(returnType, dateTimeValue);
+      return CustomTypeConvertorRegistry.convertToType(returnType, dateTimeValue);
     } else {
       throw new EdmSimpleTypeException(EdmSimpleTypeException.VALUE_TYPE_NOT_SUPPORTED.addContent(returnType));
     }
