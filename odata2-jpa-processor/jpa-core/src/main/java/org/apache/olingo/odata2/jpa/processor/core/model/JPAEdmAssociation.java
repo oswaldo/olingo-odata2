@@ -176,8 +176,10 @@ public class JPAEdmAssociation extends JPAEdmBaseViewImpl implements JPAEdmAssoc
             Association newAssociation = new Association();
             copyAssociation(newAssociation, associationMap.get(view.getEdmRelationShipName()));
             newAssociation.setReferentialConstraint(view.getEdmReferentialConstraint());
-            consistentAssociatonList.add(newAssociation);
-            associationMap.put(view.getEdmRelationShipName(), newAssociation);
+            if (!consistentAssociatonList.contains(newAssociation)) {
+              consistentAssociatonList.add(newAssociation);
+              associationMap.put(view.getEdmRelationShipName(), newAssociation);
+            }
             inconsistentRefConstraintViewList.remove(index);
           } else {
             associationMap.remove(view.getEdmRelationShipName());
