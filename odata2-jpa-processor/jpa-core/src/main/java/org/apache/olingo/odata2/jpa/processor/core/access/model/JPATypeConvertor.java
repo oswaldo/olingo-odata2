@@ -22,9 +22,9 @@ import java.lang.reflect.AnnotatedElement;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Lob;
@@ -33,7 +33,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.metamodel.Attribute;
 
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
-import org.apache.olingo.odata2.core.edm.CustomTypeConvertor;
 import org.apache.olingo.odata2.core.edm.CustomTypeConvertorRegistry;
 import org.apache.olingo.odata2.jpa.processor.api.exception.ODataJPAModelException;
 
@@ -84,7 +83,8 @@ public class JPATypeConvertor {
       return EdmSimpleTypeKind.Byte;
     } else if (jpaType.equals(Boolean.class) || jpaType.equals(boolean.class)) {
       return EdmSimpleTypeKind.Boolean;
-    } else if ((jpaType.equals(Date.class)) || (jpaType.equals(Calendar.class)) || (jpaType.equals(Timestamp.class))) {
+    } else if ((jpaType.equals(Date.class)) || (jpaType.equals(Calendar.class)) ||
+        jpaType.equals(Timestamp.class)) {
       try {
         if ((currentAttribute != null)
             && (determineTemporalType(currentAttribute)
