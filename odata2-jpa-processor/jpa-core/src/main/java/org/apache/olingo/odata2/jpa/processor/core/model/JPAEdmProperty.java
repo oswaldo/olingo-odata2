@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.apache.olingo.odata2.jpa.processor.core.model;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -200,7 +201,8 @@ public class JPAEdmProperty extends JPAEdmBaseViewImpl implements
         currentAttribute = (Attribute<?, ?>) jpaAttribute;
 
         // Check for need to Exclude
-        if (isExcluded((JPAEdmPropertyView) JPAEdmProperty.this, entityTypeName, currentAttribute.getName())) {
+        if (isExcluded((JPAEdmPropertyView) JPAEdmProperty.this, entityTypeName, currentAttribute.getName())
+            || isExcludeAnnotated(currentAttribute)) {
           continue;
         }
 
@@ -319,6 +321,12 @@ public class JPAEdmProperty extends JPAEdmBaseViewImpl implements
         }
       }
 
+    }
+
+    private boolean isExcludeAnnotated(Attribute<?, ?> currentAttribute) {
+      return currentAttribute != null
+          && (currentAttribute.getJavaMember() instanceof AccessibleObject && ((AccessibleObject) currentAttribute
+              .getJavaMember()).isAnnotationPresent(JPAEdmExclude.class));
     }
 
     private SimpleProperty buildSimpleProperty(final Attribute<?, ?> jpaAttribute, final SimpleProperty simpleProperty,
