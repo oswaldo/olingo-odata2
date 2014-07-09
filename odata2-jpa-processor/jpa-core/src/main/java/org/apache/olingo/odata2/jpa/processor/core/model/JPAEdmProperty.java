@@ -36,10 +36,12 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.olingo.odata2.api.edm.EdmFacets;
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
 import org.apache.olingo.odata2.api.edm.provider.ComplexProperty;
 import org.apache.olingo.odata2.api.edm.provider.ComplexType;
+import org.apache.olingo.odata2.api.edm.provider.Facets;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 import org.apache.olingo.odata2.jpa.processor.api.access.JPAEdmBuilder;
@@ -258,6 +260,12 @@ public class JPAEdmProperty extends JPAEdmBaseViewImpl implements
             currentComplexProperty.setType(new FullQualifiedName(
                 schemaView.getEdmSchema().getNamespace(),
                 complexType.getName()));
+            EdmFacets facets = currentComplexProperty.getFacets();
+            if (facets == null) {
+              facets = new Facets();
+              currentComplexProperty.setFacets(facets);
+            }
+            ((Facets) facets).setNullable(true);
 
             properties.add(currentComplexProperty);
             if (!complexTypeView.isReferencedInKey(currentComplexProperty.getType().getName()))
