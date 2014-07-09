@@ -265,7 +265,7 @@ public class JPAEdmProperty extends JPAEdmBaseViewImpl implements
               facets = new Facets();
               currentComplexProperty.setFacets(facets);
             }
-            ((Facets) facets).setNullable(true);
+            ((Facets) facets).setNullable(false);
 
             properties.add(currentComplexProperty);
             if (!complexTypeView.isReferencedInKey(currentComplexProperty.getType().getName()))
